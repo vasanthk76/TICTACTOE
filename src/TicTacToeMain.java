@@ -43,11 +43,26 @@ public class TicTacToeMain {
             players.add(new Player(name,symbol.charAt(0), PlayerType.HUMAN));
         }
 
-        gameController.createGame(dimension,players);
+        Game game = gameController.createGame(dimension,players);
 
-        while(gameController.getGameStatus().equals(GameStatus.IN_PROGRESS)){
+        while(gameController.getGameStatus(game).equals(GameStatus.IN_PROGRESS)){
 
+            System.out.println("CURRENT BOARD");
+            gameController.displayBoard(game);
+
+            System.out.println("Do you want to undo? Y/N");
+            String isUndo = scanner.next();
+            if(isUndo.charAt(0)=='y'){
+                gameController.undo();
+            }else{
+                gameController.executeNextMove();
+            }
         }
 
+        if(gameController.getGameStatus(game).equals(GameStatus.ENDED)){
+            System.out.println("Winner is "+ game.getWinner().getName());
+        }else{
+            System.out.println("GAME DRAW.");
+        }
     }
 }

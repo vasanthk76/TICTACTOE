@@ -13,27 +13,27 @@ public class GameController {
     }
     public Game createGame(int dimension, List<Player> players){
         try{
-            Game game = Game.getBuilder().setdimension(dimension).setPlayers(players).build();
+            Game game = Game.getBuilder().setDimension(dimension).setPlayers(players).build();
             return game;
         }catch (Exception e){
             return null;
         }
     }
 
-    public Player getWinner(){
-
+    public Player getWinner(Game game){
+        return game.getWinner();
     }
 
-    public void displayBoard(){
-
+    public void displayBoard(Game game){
+        game.displayBoard();
     }
 
     public void executeNextMove(){
 
     }
 
-    public GameStatus getGameStatus(){
-
+    public GameStatus getGameStatus(Game game){
+        return game.getGameStatus();
     }
 }
 

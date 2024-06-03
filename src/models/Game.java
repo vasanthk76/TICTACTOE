@@ -14,6 +14,10 @@ public class Game {
     private int nextPlayerIndex;
     private Player winner;
 
+    public void displayBoard() {
+        this.board.displayBoard();
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -74,7 +78,7 @@ public class Game {
             return dimension;
         }
 
-        public GameBuilder setdimension(int dimension) {
+        public GameBuilder setDimension(int dimension) {
             this.dimension = dimension;
             return this;
         }
@@ -104,7 +108,7 @@ public class Game {
             try{
                 isValid();
             }catch (Exception e){
-                System.out.println("Exception occured during Game creation");
+                System.out.println("Exception occurred during Game creation");
             }
 
             Game game = new Game();
