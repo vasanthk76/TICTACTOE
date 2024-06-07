@@ -16,8 +16,9 @@ public class Cell {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public Cell setPlayer(Player player) {
         this.player = player;
+        return this;
     }
 
     public int getRow() {
@@ -40,7 +41,8 @@ public class Cell {
         return cellState;
     }
 
-    public void setCellState(CellState cellState) {
+    public Cell setCellState(CellState cellState) {
         this.cellState = cellState;
+        return this;
     }
 }

@@ -28,8 +28,8 @@ public class GameController {
         game.displayBoard();
     }
 
-    public void executeNextMove(){
-
+    public void executeNextMove(Game game){
+        game.makeNextMove();
     }
 
     public GameStatus getGameStatus(Game game){

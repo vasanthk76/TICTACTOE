@@ -62,6 +62,38 @@ public class Game {
         return winner;
     }
 
+    public void makeNextMove(){
+        //get the next player
+        Player currentMovePlayer = players.get(nextPlayerIndex);
+
+        //player should decide the move
+        Move move = currentMovePlayer.decideMove(this.getBoard());
+
+        //validate move TODO
+
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        //make the move if it is valid
+        System.out.println("move happened at "+row+", "+col);
+
+        this.board.getBoard().get(row).get(col).setCellState(CellState.FILLED).setPlayer(currentMovePlayer);
+
+        //add the move to the list of moves
+        this.moves.add(move);
+
+
+        //check winner
+
+
+
+
+        //move to next player
+        this.nextPlayerIndex++;
+        this.nextPlayerIndex%=players.size();
+
+    }
+
     public void setWinner(Player winner) {
         this.winner = winner;
     }

@@ -55,7 +55,7 @@ public class TicTacToeMain {
             if(isUndo.charAt(0)=='y'){
                 gameController.undo();
             }else{
-                gameController.executeNextMove();
+                gameController.executeNextMove(game);
             }
         }
 
