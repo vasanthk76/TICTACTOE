@@ -2,6 +2,8 @@ package models;
 
 import exceptions.InvalidDimensionException;
 import exceptions.InvalidNumberOfPlayers;
+import strategies.gamewinningstrategy.GameWinningStrategy;
+import strategies.gamewinningstrategy.OrderOneWinningStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,15 @@ public class Game {
     private GameStatus gameStatus;
     private int nextPlayerIndex;
     private Player winner;
+    private GameWinningStrategy gameWinningStrategy;
+
+    public GameWinningStrategy getGameWinningStrategy() {
+        return gameWinningStrategy;
+    }
+
+    public void setGameWinningStrategy(GameWinningStrategy gameWinningStrategy) {
+        this.gameWinningStrategy = gameWinningStrategy;
+    }
 
     public void displayBoard() {
         this.board.displayBoard();
@@ -62,7 +73,7 @@ public class Game {
         return winner;
     }
 
-    public void makeNextMove(){
+    public boolean makeNextMove(){
         //get the next player
         Player currentMovePlayer = players.get(nextPlayerIndex);
 
@@ -74,24 +85,41 @@ public class Game {
         int row = move.getCell().getRow();
         int col = move.getCell().getCol();
 
-        //make the move if it is valid
-        System.out.println("move happened at "+row+", "+col);
+        boolean validMove = validateMove(row,col);
 
+        while(!validMove){
+            System.out.println("INVALID MOVE!");
+            move = currentMovePlayer.decideMove(this.getBoard());
+            row = move.getCell().getRow();
+            col = move.getCell().getCol();
+            validMove = validateMove(row,col);
+        }
+
+        //make the move if it is valid
         this.board.getBoard().get(row).get(col).setCellState(CellState.FILLED).setPlayer(currentMovePlayer);
 
         //add the move to the list of moves
         this.moves.add(move);
 
-
         //check winner
-
-
-
+        if(gameWinningStrategy.checkWinner(board,move.getCell(),currentMovePlayer)){
+            setGameStatus(GameStatus.ENDED);
+            winner=currentMovePlayer;
+        }
 
         //move to next player
-        this.nextPlayerIndex++;
-        this.nextPlayerIndex%=players.size();
+        nextPlayerIndex++;
+        nextPlayerIndex%=players.size();
+        return true;
+    }
 
+    private boolean validateMove(int row, int col) {
+        if(row>=board.getBoard().size() || col>=board.getBoard().size())
+            return false;
+        Cell cell = board.getBoard().get(row).get(col);
+        if(cell.getCellState()==CellState.FILLED)
+            return false;
+        return true;
     }
 
     public void setWinner(Player winner) {
@@ -100,6 +128,12 @@ public class Game {
 
     public static GameBuilder getBuilder(){
         return new GameBuilder();
+    }
+
+    public void undoMove() {
+        Move lastMove = moves.removeLast();
+        board.getBoard().get(lastMove.getCell().getRow()).get(lastMove.getCell().getCol()).setCellState(CellState.EMPTY);
+        System.out.println("move has been undone");
     }
 
     public static class GameBuilder{
@@ -149,6 +183,7 @@ public class Game {
             game.setPlayers(players);
             game.setMoves(new ArrayList<>());
             game.setNextPlayerIndex(0);
+            game.setGameWinningStrategy(new OrderOneWinningStrategy(dimension));
             return game;
         }
     }

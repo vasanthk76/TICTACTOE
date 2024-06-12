@@ -28,7 +28,7 @@ public class Board {
         for(int i=0;i<this.board.size();i++){
             for(int j=0;j<this.board.size();j++){
                 if(this.board.get(i).get(j).getCellState().equals(CellState.EMPTY)){
-                    System.out.print("| | ");
+                    System.out.print("|  | ");
                 }
                 else{
                     System.out.print("| "+ this.board.get(i).get(j).getPlayer().getSymbol() +" |");

@@ -11,11 +11,12 @@ public class TicTacToeMain {
         GameController gameController = new GameController();
 
         System.out.println("enter dimensions");
-        int dimension = scanner.nextInt();
+        int dimension =3;
+//                scanner.nextInt();
 
         System.out.println("Add a bot to the Game?");
-
-        String isBot = scanner.next();
+        String isBot = "y";
+//        String isBot = scanner.next();
 
         int numberOfPlayers = dimension - 1;
         int numberOfHumanPlayers = numberOfPlayers;
@@ -30,7 +31,7 @@ public class TicTacToeMain {
             System.out.println("Enter the symbol of the bot");
             String symbol = scanner.next();
 
-            players.add(new Bot(botName,symbol.charAt(0),PlayerType.BOT, BotDifficultyLevel.EASY));
+            players.add(new Bot(botName,symbol.charAt(0),PlayerType.BOT, BotDifficultyLevel.EASY,"random"));
         }
 
         for(int i=0;i<numberOfHumanPlayers;i++){
@@ -50,18 +51,23 @@ public class TicTacToeMain {
             System.out.println("CURRENT BOARD");
             gameController.displayBoard(game);
 
-            System.out.println("Do you want to undo? Y/N");
-            String isUndo = scanner.next();
+            String isUndo= "n";
+            if(game.getMoves().size()>0) {
+                System.out.println("Do you want to undo? Y/N");
+                isUndo = scanner.next();
+            }
             if(isUndo.charAt(0)=='y'){
-                gameController.undo();
+                gameController.undo(game);
             }else{
                 gameController.executeNextMove(game);
             }
         }
 
         if(gameController.getGameStatus(game).equals(GameStatus.ENDED)){
+            gameController.displayBoard(game);
             System.out.println("Winner is "+ game.getWinner().getName());
         }else{
+            gameController.displayBoard(game);
             System.out.println("GAME DRAW.");
         }
     }

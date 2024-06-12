@@ -8,8 +8,8 @@ import java.util.List;
 
 public class GameController {
     //gameController will have all the methods that a client needs from the game
-    public void undo(){
-
+    public void undo(Game game){
+        game.undoMove();
     }
     public Game createGame(int dimension, List<Player> players){
         try{

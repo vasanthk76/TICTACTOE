@@ -39,11 +39,17 @@ public class Player {
 
     public Move decideMove(Board board) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("please give the row to make the move:");
-        int row = scanner.nextInt();
-        System.out.println("please give the column to make the move:");
-        int col = scanner.nextInt();
+        System.out.println(this.name+"'s turn, please make the next move:");
+        String pos = scanner.next();
 
-        return new Move(this,new Cell(row,col));
+        int row = Integer.parseInt(pos.substring(0,1));
+        int col = Integer.parseInt(pos.substring(1,2));
+
+
+
+
+        Move newMove = new Move(this,new Cell(row,col));
+        newMove.getCell().setPlayer(this);
+        return newMove;
     }
 }
